@@ -2,6 +2,7 @@ const TripService = require("./TripService");
 const assert = require("assert");
 const User = require("./User");
 const Trip = require("./Trip");
+const user = require("./UserBuilder");
 
 const GUEST = null;
 const REGISTERED_USER = new User();
@@ -10,13 +11,6 @@ const TO_GIB = new Trip("Gibraltar");
 const TO_LONDON = new Trip("London");
 let loggedInUser;
 let tripService;
-
-function user({friends, trips}) {
-    const user = new User();
-    friends.forEach(user.addFriend, user);
-    trips.forEach(user.addTrip, user);
-    return user;
-}
 
 describe("TripService", function() {
     beforeEach(() => {
