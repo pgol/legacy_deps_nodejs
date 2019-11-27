@@ -11,6 +11,13 @@ const TO_LONDON = new Trip("London");
 let loggedInUser;
 let tripService;
 
+function user({friends, trips}) {
+    const user = new User();
+    friends.forEach(user.addFriend, user);
+    trips.forEach(user.addTrip, user);
+    return user;
+}
+
 describe("TripService", function() {
     beforeEach(() => {
         tripService = new TestableTripService();
@@ -26,10 +33,8 @@ describe("TripService", function() {
     });
 
     it("should return no trips when users are not friends", function() {
-        const NOT_FRIEND = new User();
-        NOT_FRIEND.addTrip(TO_GIB);
-        NOT_FRIEND.addFriend(ANOTHER_USER);
         loggedInUser = REGISTERED_USER;
+        const NOT_FRIEND = user({friends: [ANOTHER_USER], trips: [TO_GIB]});
 
         const trips = tripService.getTripsByUser(NOT_FRIEND);
 
@@ -38,11 +43,8 @@ describe("TripService", function() {
 
     it("should return friends trips when users are friends", function() {
         loggedInUser = REGISTERED_USER;
-        const friend = new User();
-        friend.addFriend(loggedInUser);
-        friend.addFriend(ANOTHER_USER);
-        friend.addTrip(TO_GIB);
-        friend.addTrip(TO_LONDON);
+        const friend = user({friends: [loggedInUser, ANOTHER_USER],
+            trips: [TO_GIB, TO_LONDON]});
 
         const friendTrips = tripService.getTripsByUser(friend);
 
