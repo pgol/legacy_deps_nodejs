@@ -16,12 +16,16 @@ class TripService {
                 }
             };
             if (isFriend) {
-                tripList = TripDAO.findTripsByUser(user);
+                tripList = this.tripsBy(user);
             }
             return tripList;
         } else {
             throw new Error('User not logged in.');
         }
+    }
+
+    tripsBy(user) {
+        TripDAO.findTripsByUser(user);
     }
 
     getLoggedInUser() {
