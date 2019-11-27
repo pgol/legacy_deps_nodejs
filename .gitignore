@@ -1,2 +1,4 @@
 node_module
 .idea
+.nyc_output
+coverage
